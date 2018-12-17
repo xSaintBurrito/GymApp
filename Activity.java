@@ -1,7 +1,7 @@
 import java.util.Calendar;
 
 public class Activity 						 
-{															//Il faut rajouter des méthodes d'accès aux activités depuis fullCalendar
+{															//Il faut rajouter des mï¿½thodes d'accï¿½s aux activitï¿½s depuis fullCalendar
     private int activityId;
 	private int trainerId;
 	private int nb_max;
@@ -49,7 +49,11 @@ public class Activity
 		return this.nb_registers;
 	}
 
-	public void getParticipationList() 					
+	public static int[] getParticipationList() {
+		return this.userId;
+	}
+
+	public void showParticipationList()
 	{
 		for (int i=0;i<this.nb_registers;i++)
 		{

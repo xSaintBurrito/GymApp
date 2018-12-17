@@ -77,6 +77,9 @@ public class TrainerCalendar
 		}
 	}
 
+	public ArrayList<Integer> getTrainerCalendar() {
+		return trainerCalendar;
+	}
 }
 
 

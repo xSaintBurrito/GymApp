@@ -2,7 +2,7 @@ package worker;
 
 /**
  * Represents the entity Client.
- * @author Pedro Fonseca & Lázaro Amor
+ * @author Pedro Fonseca & Lï¿½zaro Amor
  *
  */
 
