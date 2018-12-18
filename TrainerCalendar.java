@@ -1,3 +1,4 @@
+package gymAppCalendar;
 import java.util.ArrayList;
 
 public class TrainerCalendar 

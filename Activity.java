@@ -1,3 +1,4 @@
+package gymAppCalendar;
 import java.util.Calendar;
 
 public class Activity 						 
