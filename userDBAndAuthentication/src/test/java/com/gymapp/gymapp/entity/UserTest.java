@@ -17,14 +17,14 @@ public class UserTest {
     private Long id;
     private String username;
     private String password;
-    private List<Role> roles;
+    private Role role;
 
     @Before
     public void setUp() throws Exception {
         this.id = 1L;
         this.username = "user";
         this.password = "password";
-        this.roles = Arrays.asList(Role.MANAGER);
+        this.role = Role.MANAGER;
     }
 
     @After
@@ -32,7 +32,7 @@ public class UserTest {
         this.id = null;
         this.username = null;
         this.password = null;
-        this.roles = null;
+        this.role = null;
     }
 
     @Test
@@ -40,7 +40,7 @@ public class UserTest {
         //given
 
         //when
-        User result = new User(username, password, roles);
+        User result = new User(username, password, role);
 
         //then
         assertThat(result)
@@ -51,45 +51,25 @@ public class UserTest {
                 .isEqualTo(username);
         assertThat(result.getPassword())
                 .isEqualTo(password);
-        assertThat(result.getRoles())
+        assertThat(result.getRole())
                 .isNotNull()
-                .hasSize(roles.size())
-                .containsAll(roles);
+                .isEqualTo(role);
     }
 
     @Test
     public void shouldGrantRole() {
         //given
         Role role = Role.MANAGER;
-        User user = new User(username, password, Collections.emptyList());
+        User user = new User(username, password, Role.MANAGER);
 
         //when
-        user.grant(role);
+        user.setRole(role);
 
         //then
         assertThat(user)
                 .isNotNull();
-        assertThat(user.getRoles())
+        assertThat(user.getRole())
                 .isNotNull()
-                .hasSize(1)
-                .containsExactly(role);
-    }
-
-    @Test
-    public void shouldRevokeRole() {
-        //given
-        Role role = Role.MANAGER;
-        User user = new User(username, password, roles);
-
-        //when
-        user.revoke(role);
-
-        //then
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getRoles())
-                .isNotNull()
-                .hasSize(0)
-                .doesNotContain(role);
+                .isEqualTo(role);
     }
 }

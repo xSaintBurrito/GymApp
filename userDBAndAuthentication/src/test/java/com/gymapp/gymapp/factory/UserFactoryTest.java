@@ -54,7 +54,7 @@ public class UserFactoryTest {
         UserAddInput userAddInput = UserAddInput.builder()
                 .username(username)
                 .password(password)
-                .roles(Collections.emptySet())
+                .role(Role.MANAGER)
                 .build();
         when(passwordEncoder.encode(password))
                 .thenReturn(encryptedPassword);
@@ -74,20 +74,19 @@ public class UserFactoryTest {
                 .isEqualTo(username);
         assertThat(result.getPassword())
                 .isEqualTo(encryptedPassword);
-        assertThat(result.getRoles())
+        assertThat(result.getRole())
                 .isNotNull()
-                .isEmpty();
+                .isEqualTo(Role.MANAGER);
     }
 
     @Test
     public void shouldReturnUserInCreateWithRoles() {
         //given
-        Role[] rolesArray = {Role.MANAGER};
-        List<Role> roles = Arrays.asList(rolesArray);
+        Role role = Role.MANAGER;
         UserAddInput userAddInput = UserAddInput.builder()
                 .username(username)
                 .password(password)
-                .roles(roles)
+                .role(role)
                 .build();
         String encryptedPassword = "hash";
         when(passwordEncoder.encode(password))
@@ -108,10 +107,9 @@ public class UserFactoryTest {
                 .isEqualTo(username);
         assertThat(result.getPassword())
                 .isEqualTo(encryptedPassword);
-        assertThat(result.getRoles())
+        assertThat(result.getRole())
                 .isNotNull()
-                .hasSize(1)
-                .containsExactlyInAnyOrder(rolesArray);
+                .isEqualTo(role);
     }
 }
 

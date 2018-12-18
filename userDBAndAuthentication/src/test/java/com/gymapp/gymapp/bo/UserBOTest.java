@@ -1,9 +1,12 @@
 package com.gymapp.gymapp.bo;
 
+import com.gymapp.gymapp.FitnessClassBO;
 import com.gymapp.gymapp.Role;
 import com.gymapp.gymapp.UserBO;
+import com.gymapp.gymapp.entity.FitnessClass;
 import com.gymapp.gymapp.entity.User;
 import com.gymapp.gymapp.input.UserAddInput;
+import com.gymapp.gymapp.repository.FitnessClassRepository;
 import com.gymapp.gymapp.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,10 +27,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest() //classes = Application.class
 public class UserBOTest {
 
-    private static final Long ID = 1L;
-    private static final String USERNAME = "username";
+    private static final String USERNAME = "test";
     private static final String PASSWORD = "password";
-    private static final Role ROLE_MANAGER = Role.MANAGER;
+    private static final Role ROLE = Role.MANAGER;
     @Autowired
     private UserBO userBO;
     @Autowired
@@ -36,8 +41,7 @@ public class UserBOTest {
         UserAddInput userAddInput = UserAddInput.builder()
                 .username(USERNAME)
                 .password(PASSWORD)
-                .employeeId(ID)
-                .roles(Collections.emptySet())
+                .role(ROLE)
                 .build();
         user = userBO.addUser(userAddInput);
     }

@@ -5,10 +5,7 @@ import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -26,10 +23,15 @@ public class User {
     @NotNull
     private String password;
 
-    @Transient
-    private Set<Role> roles = new HashSet<>();
+    @NotNull
+    private Role role;
 
-    @Transient
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "users_fitness_class",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "fitness_class_id") }
+    )
     private List<FitnessClass> fitnessClasses;
 
     protected User() {
@@ -37,19 +39,27 @@ public class User {
 
     public User(final String username,
                 final String password,
-                final Collection<Role> roles) {
+                final Role role) {
         this.username = username;
         this.password = password;
-        this.roles.addAll(roles);
+        this.role = role;
+        this.fitnessClasses = new ArrayList<FitnessClass>();
     }
 
-    public void grant(final Role role) {
-        this.roles.add(role);
+    public User(final String username,
+                final String password,
+                final Role role,
+                final List<FitnessClass> fitnessClasses) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        if(fitnessClasses == null)
+            this.fitnessClasses = new ArrayList<FitnessClass>();
+        else
+            this.fitnessClasses = fitnessClasses;
     }
 
-    public void revoke(final Role role) {
-        this.roles.remove(role);
-    }
+    public void setRole(final Role role) { this.role = role; }
 
     public void updatePassword(final String newPassword) {
         this.password = newPassword;
@@ -59,8 +69,15 @@ public class User {
         this.username = newUsername;
     }
 
-    public Set<Role> getRoles(){ return roles; }
+    public Role getRole(){ return role; }
 
     public List<FitnessClass> getFitnessClasses() { return  fitnessClasses; }
+
+    public void setFitnessClasses(List<FitnessClass> fitnessClasses){ this.fitnessClasses = fitnessClasses; }
+
+    public void addFitnessClass(FitnessClass fitnessClass) {
+        fitnessClasses.add(fitnessClass);
+        fitnessClass.getUsers().add(this);
+    }
 
 }

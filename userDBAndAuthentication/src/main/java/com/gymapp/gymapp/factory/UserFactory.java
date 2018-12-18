@@ -17,6 +17,6 @@ public class UserFactory {
     public User create(final UserAddInput userAddInput) {
         String passwordEncrypted = passwordEncoder.encode(userAddInput.getPassword());
 
-        return new User(userAddInput.getUsername(), passwordEncrypted, userAddInput.getRoles());
+        return new User(userAddInput.getUsername(), passwordEncrypted, userAddInput.getRole(), userAddInput.getFitnessClasses());
     }
 }

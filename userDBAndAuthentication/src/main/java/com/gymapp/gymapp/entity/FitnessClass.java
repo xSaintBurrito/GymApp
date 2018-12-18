@@ -23,7 +23,8 @@ public class FitnessClass {
 
     private long trainerId;
 
-    @Transient
+    //@Transient
+    @ManyToMany(mappedBy = "fitnessClasses")
     private List<User> signedUsers;
 
     protected FitnessClass(){

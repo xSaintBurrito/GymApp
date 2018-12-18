@@ -2,6 +2,7 @@ package com.gymapp.gymapp.bo;
 
 import com.gymapp.gymapp.Role;
 import com.gymapp.gymapp.UserBO;
+import com.gymapp.gymapp.entity.FitnessClass;
 import com.gymapp.gymapp.entity.User;
 import com.gymapp.gymapp.factory.UserFactory;
 import com.gymapp.gymapp.input.UserAddInput;
@@ -34,21 +35,12 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public boolean grantRole(long id, Role role) {
+    public boolean setRole(long id, Role role) {
         User user = userRepository.getOne(id);
 
-        user.grant(role);
+        user.setRole(role);
 
         return true;
-    }
-
-    @Override
-    public boolean revokeRole(long id, Role role) {
-        User user = userRepository.getOne(id);
-
-        user.revoke(role);
-
-        return false;
     }
 
     @Override
@@ -57,6 +49,14 @@ public class UserBOImpl implements UserBO {
 
         User user = userRepository.getOne(userId);
         user.updatePassword(passwordEncoder.encode(password));
+
+        return true;
+    }
+
+    @Override
+    public boolean addFitnessClass(long userId, FitnessClass fitnessClass){
+        User user = userRepository.getOne(userId);
+        user.addFitnessClass(fitnessClass);
 
         return true;
     }
@@ -90,9 +90,9 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public Set<Role> getUserRoles(long userId) {
+    public Role getUserRole(long userId) {
         User user = userRepository.getOne(userId);
 
-        return user.getRoles();
+        return user.getRole();
     }
 }

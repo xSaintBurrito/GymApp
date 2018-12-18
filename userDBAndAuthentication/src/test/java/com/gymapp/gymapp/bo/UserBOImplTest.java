@@ -43,7 +43,7 @@ public class UserBOImplTest {
     private long id;
     private String username;
     private String password;
-    private List<Role> roles;
+    private Role role;
 
     @Before
     public void setUp() throws Exception {
@@ -55,7 +55,7 @@ public class UserBOImplTest {
         this.id = 1L;
         this.username = "user";
         this.password = "password";
-        this.roles = Arrays.asList(Role.MANAGER);
+        this.role = Role.MANAGER;
     }
 
     @After
@@ -70,7 +70,7 @@ public class UserBOImplTest {
         UserAddInput userAddInput = UserAddInput.builder()
                 .username(username)
                 .password(password)
-                .roles(Collections.emptySet())
+                .role(Role.MANAGER)
                 .build();
         when(userFactory.create(userAddInput))
                 .thenReturn(user);
@@ -96,7 +96,7 @@ public class UserBOImplTest {
         UserAddInput userAddInput = UserAddInput.builder()
                 .username(username)
                 .password(password)
-                .roles(roles)
+                .role(role)
                 .build();
         when(userFactory.create(userAddInput))
                 .thenReturn(user);
@@ -125,33 +125,15 @@ public class UserBOImplTest {
                 .thenReturn(user);
 
         //when
-        userBOImpl.grantRole(id, role);
+        userBOImpl.setRole(id, role);
 
         //then
         verify(userRepository)
                 .getOne(id);
         verify(user)
-                .grant(role);
+                .setRole(role);
     }
 
-    @Test
-    public void shouldRevokeRoleFromUser() {
-        //given
-        Role role = Role.MANAGER;
-        User user = mock(User.class);
-
-        when(userRepository.getOne(id))
-                .thenReturn(user);
-
-        //when
-        userBOImpl.revokeRole(id, role);
-
-        //then
-        verify(userRepository)
-                .getOne(id);
-        verify(user)
-                .revoke(role);
-    }
 
     @Test
     public void shouldDelete() {

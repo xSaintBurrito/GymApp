@@ -60,7 +60,7 @@ public class FitnessClassTest {
     @Test
     public void shouldSignUpForFitnessClass() {
         //given
-        User user = new User(username, password, Collections.emptyList());
+        User user = new User(username, password, Role.MANAGER);
         FitnessClass fitnessClass = new FitnessClass(maxPlaces, date, trainerId);
 
 
@@ -77,7 +77,7 @@ public class FitnessClassTest {
     @Test
     public void shouldSignOffFromFitnessClass() {
         //given
-        User user = new User(username, password, Collections.emptyList());
+        User user = new User(username, password, Role.MANAGER);
         FitnessClass fitnessClass = new FitnessClass(maxPlaces, date, trainerId);
         fitnessClass.signUp(user);
 
